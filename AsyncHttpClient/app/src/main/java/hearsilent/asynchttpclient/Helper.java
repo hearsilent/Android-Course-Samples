@@ -41,7 +41,7 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {
 				super.onFailure(statusCode, headers, responseString, throwable);
-				if (callback != null) {
+				if (callback != null && responseString != null) {
 					callback.onFail(responseString);
 				}
 			}
@@ -50,7 +50,7 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				if (callback != null) {
+				if (callback != null && errorResponse != null) {
 					callback.onFail(errorResponse.toString());
 				}
 			}
