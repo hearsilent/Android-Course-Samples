@@ -3,8 +3,13 @@ package hearsilent.asynchttpclient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class GeneralCallback {
 	public void onSuccess() {
+	}
+
+	public void onSuccess(ArrayList<NotifyModule> modules) {
 	}
 
 	public void onSuccess(String data) {

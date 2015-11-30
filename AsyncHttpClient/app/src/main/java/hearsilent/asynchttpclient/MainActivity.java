@@ -1,11 +1,13 @@
 package hearsilent.asynchttpclient;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -17,47 +19,55 @@ public class MainActivity extends AppCompatActivity
 	CustomListView listView;
 	CustomAdapter customAdapter;
 
-	ArrayList<String> arrayList = new ArrayList<>();
+	ArrayList<NotifyModule> arrayList = new ArrayList<>();
 	boolean isUpdate = false;
+
+	int page = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Helper.getNotification(this, 1, new GeneralCallback() {
+		listView = (CustomListView) findViewById(R.id.listView);
+		listView.setOnBottomReachedListener(this);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onSuccess(String data) {
-				super.onSuccess(data);
-				Log.d("HearSilent", data);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Uri uri = Uri.parse(arrayList.get(position).link);
+				Intent i = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(i);
 			}
 		});
 
-		listView = (CustomListView) findViewById(R.id.listView);
-		for (int i = 0; i < 10; i++) {
-			arrayList.add(Integer.toString(i));
-		}
-		customAdapter = new CustomAdapter();
-		listView.setAdapter(customAdapter);
+		getData();
+	}
 
-		listView.setOnBottomReachedListener(this);
+	private void getData() {
+		Helper.getNotification(this, page, new GeneralCallback() {
+			@Override
+			public void onSuccess(ArrayList<NotifyModule> modules) {
+				super.onSuccess(modules);
+				if (arrayList.size() == 0) {
+					arrayList = modules;
+					customAdapter = new CustomAdapter();
+					listView.setAdapter(customAdapter);
+				} else {
+					arrayList.addAll(modules);
+					customAdapter.notifyDataSetChanged();
+				}
+				page++;
+				isUpdate = false;
+			}
+		});
 	}
 
 	@Override
 	public void onBottomReached() {
 		if (!isUpdate) {
 			isUpdate = true;
-			int count = customAdapter.getCount();
-			for (int i = count; i < count + 10; i++) {
-				arrayList.add(Integer.toString(i));
-			}
-			listView.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					customAdapter.notifyDataSetChanged();
-					isUpdate = false;
-				}
-			}, 800);
+			getData();
 		}
 	}
 
@@ -96,9 +106,9 @@ public class MainActivity extends AppCompatActivity
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			holder.textView_title.setText(arrayList.get(position));
-			holder.textView_from.setText("Test " + arrayList.get(position));
-			holder.textView_date.setText("Test2 " + arrayList.get(position));
+			holder.textView_title.setText(arrayList.get(position).title);
+			holder.textView_from.setText(arrayList.get(position).dept);
+			holder.textView_date.setText(arrayList.get(position).date);
 
 			return convertView;
 		}
