@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,14 +22,15 @@ public class MainActivity extends AppCompatActivity {
 		mViewPager.setAdapter(new MessagesPagerAdapter(getSupportFragmentManager()));
 
 		// Anim
-		/**
 		mViewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
 			@Override
 			public void transformPage(View page, float position) {
+				int width = page.getWidth();
 
+				TextView textView2 = (TextView) page.findViewById(R.id.textView2);
+				textView2.setTranslationX(position * width);
 			}
 		});
-		 */
 	}
 
 	private class MessagesPagerAdapter extends FragmentPagerAdapter {
