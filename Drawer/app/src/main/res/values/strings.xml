@@ -1,0 +1,15 @@
+<resources>
+	<string name="app_name">Drawer</string>
+
+	<string name="news">最新消息</string>
+	<string name="offline_course">離線課表</string>
+	<string name="course">學期課表</string>
+	<string name="score">學期成績</string>
+	<string name="leave">缺曠系統</string>
+	<string name="bus">校車系統</string>
+	<string name="simcourse">模擬選課</string>
+	<string name="messages">校園資訊</string>
+	<string name="user">個人資訊</string>
+	<string name="about">關於我們</string>
+	<string name="settings">設定</string>
+</resources>
