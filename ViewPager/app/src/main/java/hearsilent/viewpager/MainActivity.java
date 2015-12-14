@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 	TabLayout mTabLayout;
 	Toolbar mToolbar;
 
+	String[] test = new String[]{"雞肉飯", "滷肉飯", "牛肉麵"};
+
 	MessagesPagerAdapter mAdapter;
 
 	@Override
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 				TextView textView2 = (TextView) page.findViewById(R.id.textView2);
 				textView2.setTranslationX(position * width);
+				textView2.setAlpha(1 - Math.abs(position));
 			}
 		});
 
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return position + "";
+			return test[position];
 		}
 	}
 }
