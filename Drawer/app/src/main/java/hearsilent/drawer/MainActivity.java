@@ -8,14 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 		implements DemoFragment.OnFragmentFInteractionListener {
 
 	NavigationView mNavigationView;
-
 	DrawerLayout mDrawerLayout;
-
 	FrameLayout frameLayout;
 
 	@Override
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity
 		setContentView(R.layout.activity_main);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
 		frameLayout = (FrameLayout) findViewById(R.id.view);
 
 		mNavigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -52,13 +50,29 @@ public class MainActivity extends AppCompatActivity
 						}
 
 						mDrawerLayout.closeDrawer(mNavigationView);
+
+						FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+						fragTrans.replace(R.id.view,
+								new DemoFragment().newInstance(item.getTitle().toString()));
+						fragTrans.commit();
 						return true;
 					}
 				});
 
-		FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
-		fragTrans.replace(R.id.view, new DemoFragment().newInstance("123"));
-		fragTrans.commit();
+		mNavigationView.getMenu().performIdentifierAction(R.id.nav_course, 0);
+		mNavigationView.setCheckedItem(R.id.nav_course);
+
+		TextView textView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.abc);
+		textView.setText("abc");
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
+			mDrawerLayout.closeDrawer(mNavigationView);
+		} else {
+			super.onBackPressed();
+		}
 	}
 
 	@Override
