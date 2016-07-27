@@ -33,23 +33,6 @@ public class MainActivity extends AppCompatActivity {
 		// TabLayout
 		mTabLayout = (TabLayout) findViewById(R.id.tabs_main);
 		mTabLayout.setupWithViewPager(mViewPager);
-		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
-				mViewPager.setCurrentItem(tab.getPosition());
-			}
-
-			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
-
-			}
-
-			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
-
-			}
-		});
 
 		// Toolbar
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -64,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
 				TextView textView2 = (TextView) page.findViewById(R.id.textView2);
 				textView2.setTranslationX(position * width);
-				textView2.setAlpha(1 - Math.abs(position));
+				textView2.setAlpha(1 - Math.abs(position) * 2);
 			}
 		});
 
