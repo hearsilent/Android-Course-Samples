@@ -3,7 +3,6 @@ package hearsilent.viewpager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
 		// TabLayout
 		mTabLayout = (TabLayout) findViewById(R.id.tabs_main);
-		mTabLayout.setTabsFromPagerAdapter(mAdapter);
-		mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-		mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+		mTabLayout.setupWithViewPager(mViewPager);
+		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
 			@Override
 			public void onTabSelected(TabLayout.Tab tab) {
 				mViewPager.setCurrentItem(tab.getPosition());
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 		// Anim
 		mViewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+
 			@Override
 			public void transformPage(View page, float position) {
 				int width = page.getWidth();
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
 	private class MessagesPagerAdapter extends FragmentPagerAdapter {
 
-		public MessagesPagerAdapter(FragmentManager fragmentManager) {
-			super(fragmentManager);
+		public MessagesPagerAdapter(android.support.v4.app.FragmentManager fm) {
+			super(fm);
 		}
 
 		@Override
