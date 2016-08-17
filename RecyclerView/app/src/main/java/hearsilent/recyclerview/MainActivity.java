@@ -48,8 +48,37 @@ public class MainActivity extends AppCompatActivity {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	public class RecyclerListAdapter
-			extends RecyclerView.Adapter<RecyclerListAdapter.ItemViewHolder> {
+	public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+		private final static int TYPE_1 = 0, TYPE_2 = 1;
+
+		public class ItemViewHolder2 extends RecyclerView.ViewHolder {
+
+			TextView titleTextView;
+			TextView fromTextView;
+			TextView dateTextView;
+
+			public ItemViewHolder2(View itemView) {
+				super(itemView);
+				titleTextView = (TextView) itemView.findViewById(R.id.textView_title);
+				fromTextView = (TextView) itemView.findViewById(R.id.textView_from);
+				dateTextView = (TextView) itemView.findViewById(R.id.textView_date);
+
+				itemView.setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						if (getAdapterPosition() == -1) {
+							return;
+						}
+
+						mArrayList
+								.add(getAdapterPosition(), Integer.toString(getAdapterPosition()));
+						notifyItemInserted(getAdapterPosition());
+					}
+				});
+			}
+		}
 
 		public class ItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -72,24 +101,45 @@ public class MainActivity extends AppCompatActivity {
 						}
 
 						mArrayList.remove(getAdapterPosition());
-						notifyDataSetChanged();
+						notifyItemRemoved(getAdapterPosition());
 					}
 				});
 			}
 		}
 
 		@Override
-		public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			return new ItemViewHolder(LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.list_custom, parent, false));
+		public int getItemViewType(int position) {
+			return position % 3 == 0 ? TYPE_2 : TYPE_1;
 		}
 
 		@Override
-		public void onBindViewHolder(ItemViewHolder holder, int position) {
-			holder.titleTextView.setText(mArrayList.get(position));
-			holder.fromTextView.setText(
-					String.format(Locale.getDefault(), "Test %s", mArrayList.get(position)));
-			holder.dateTextView.setText("");
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			if (viewType == TYPE_1) {
+				return new ItemViewHolder(LayoutInflater.from(parent.getContext())
+						.inflate(R.layout.list_custom, parent, false));
+			} else {
+				return new ItemViewHolder2(LayoutInflater.from(parent.getContext())
+						.inflate(R.layout.list_custom2, parent, false));
+			}
+		}
+
+		@Override
+		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+			int viewType = getItemViewType(position);
+
+			if (viewType == TYPE_1) {
+				ItemViewHolder viewHolder = (ItemViewHolder) holder;
+				viewHolder.titleTextView.setText(mArrayList.get(position));
+				viewHolder.fromTextView.setText(
+						String.format(Locale.getDefault(), "Test %s", mArrayList.get(position)));
+				viewHolder.dateTextView.setText("");
+			} else {
+				ItemViewHolder2 viewHolder = (ItemViewHolder2) holder;
+				viewHolder.titleTextView.setText(mArrayList.get(position));
+				viewHolder.fromTextView.setText(
+						String.format(Locale.getDefault(), "Test %s", mArrayList.get(position)));
+				viewHolder.dateTextView.setText("");
+			}
 		}
 
 		@Override
