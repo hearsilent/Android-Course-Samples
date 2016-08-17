@@ -19,7 +19,7 @@
 
 	<fragment
 		android:id="@+id/fragment_second"
-		android:name="hearsilent.fragment.SecondFragment"
+		android:name="hearsilent.fragment.FirstFragment"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
 		android:layout_below="@+id/fragment_first"

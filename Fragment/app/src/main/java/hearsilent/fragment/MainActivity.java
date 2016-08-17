@@ -27,20 +27,23 @@ public class MainActivity extends AppCompatActivity
 
 		textView = (TextView) findViewById(R.id.textView);
 		button = (Button) findViewById(R.id.button_change_fragment);
-		fragment1 = new FirstFragment();
-		//fragment1 = new FirstFragment().newInstance("test 1", "test 2");
-		fragment2 = new SecondFragment();
-		//fragment2 = new SecondFragment().newInstance("test 1", "test 2");
+		//fragment1 = new FirstFragment();
+		fragment1 = new FirstFragment().newInstance("test 1", "test 2");
+		//fragment2 = new SecondFragment();
+		fragment2 = new SecondFragment().newInstance("test 1", "test 2");
 
 		button.setOnClickListener(this);
 
-		/*
 		FirstFragment fragment = new FirstFragment();
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(R.id.fragment_second, fragment);
 		fragmentTransaction.commit();
-		*/
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
 	}
 
 	@Override

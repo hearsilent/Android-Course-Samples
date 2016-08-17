@@ -1,7 +1,7 @@
 package hearsilent.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -68,13 +68,13 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		try {
-			mListener = (OnFragmentFInteractionListener) activity;
+			mListener = (OnFragmentFInteractionListener) context;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(
-					activity.toString() + " must implement OnFragmentFInteractionListener");
+					context.toString() + " must implement OnFragmentFInteractionListener");
 		}
 	}
 
